@@ -18,7 +18,7 @@ progress on the six hands-on labs.
 
 | Status | Folder                    | Assignment Topic                                                 | Deadline |
 | :----: | :------------------------ | :--------------------------------------------------------------- | :------: |
-|  [ ]   | `1-vs-setup`              | **Dev Environment & Modular C++ Project Setup**                  |    —     |
+|  [➖]   | `1-vs-setup`              | **Dev Environment & Modular C++ Project Setup**                  |    —     |
 |  [ ]   | `2-shape-editor`          | **OOP Graphics Editor (Encapsulation/Inheritance/Polymorphism)** |    —     |
 |  [ ]   | `3-ui-widgets`            | **User Interface Controls & Elements**                           |    —     |
 |  [ ]   | `4-editor-refactor`       | **Editor Architecture Refactor (Decoupling)**                    |    —     |
