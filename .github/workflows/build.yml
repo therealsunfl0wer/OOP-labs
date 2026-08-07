@@ -66,8 +66,25 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          Get-ChildItem install\*.exe | ForEach-Object {
-            & "$env:Qt6_DIR/bin/windeployqt.exe" $_.FullName
+          $installDir = Join-Path $PWD "install"
+          if (-not (Test-Path $installDir)) {
+            Write-Host "No install directory found; skipping windeployqt."
+            exit 0
+          }
+
+          $windeployqt = Join-Path $env:QT_ROOT_DIR "bin/windeployqt.exe"
+          if (-not (Test-Path $windeployqt)) {
+            throw "windeployqt not found at: $windeployqt"
+          }
+
+          $executables = Get-ChildItem -Path $installDir -Filter *.exe -File -ErrorAction SilentlyContinue
+          if (-not $executables) {
+            Write-Host "No executables found in install directory; skipping windeployqt."
+            exit 0
+          }
+
+          $executables | ForEach-Object {
+            & $windeployqt $_.FullName
           }
 
       - name: Upload artifact
