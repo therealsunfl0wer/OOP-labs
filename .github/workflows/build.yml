@@ -65,6 +65,19 @@ jobs:
       - name: Build
         run: cmake --build build --config Release --parallel
 
+      - name: Bundle Qt runtime (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $executables = Get-ChildItem -Path build -Recurse -Filter *.exe | Where-Object { $_.FullName -notmatch '\\CMakeFiles\\' }
+          if (-not $executables) {
+            throw "No executables found under build/ to deploy."
+          }
+          foreach ($exe in $executables) {
+            Write-Host "Deploying Qt runtime for $($exe.FullName)"
+            & windeployqt --compiler-runtime --no-translations --no-opengl-sw $exe.FullName
+          }
+
       - name: Upload build directory
         uses: actions/upload-artifact@v4
         with:
