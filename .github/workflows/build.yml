@@ -14,7 +14,7 @@ jobs:
           - os: ubuntu-latest
             qt_arch: linux_gcc_64
           - os: windows-latest
-            qt_arch: win64_msvc2022_64
+            qt_arch: win64_msvc2019_64
           - os: macos-latest
             qt_arch: clang_64
 
