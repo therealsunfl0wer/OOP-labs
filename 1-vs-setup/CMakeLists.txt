@@ -16,6 +16,8 @@ add_executable(lab1
     src/module1.h
     src/module2.cpp
     src/module2.h
+    src/groups.cpp
+    src/groups.h
 )
 
 target_link_libraries(lab1 PRIVATE Qt6::Widgets)

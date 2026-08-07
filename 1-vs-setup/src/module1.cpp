@@ -1,6 +1,8 @@
 #include "module1.h"
+#include <QApplication>
 #include <QDialog>
 #include <QPushButton>
+#include <QStyle>
 #include <QVBoxLayout>
 
 namespace {
@@ -10,15 +12,20 @@ public:
   FirstDialog(QWidget *parent) : QDialog(parent) {
     setWindowTitle("Крок 1");
     setMinimumSize(200, 100);
+    setWindowIcon(
+        QApplication::style()->standardIcon(QStyle::SP_MessageBoxQuestion));
+
     QPushButton *nextButton = new QPushButton("Далі >", this);
     connect(nextButton, &QPushButton::clicked, this,
             [this]() { done(QDialog::Accepted); });
     QPushButton *cancelButton = new QPushButton("Відміна", this);
     connect(cancelButton, &QPushButton::clicked, this,
             [this]() { done(QDialog::Rejected); });
+
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(nextButton);
     layout->addWidget(cancelButton);
+
     adjustSize();
   }
 };
@@ -29,6 +36,7 @@ public:
   SecondDialog(QWidget *parent) : QDialog(parent) {
     setWindowTitle("Крок 2");
     setMinimumSize(200, 100);
+
     QPushButton *backButton = new QPushButton("< Назад", this);
     connect(backButton, &QPushButton::clicked, this, [this]() { done(Back); });
     QPushButton *confirmButton = new QPushButton("Так", this);
@@ -37,10 +45,12 @@ public:
     QPushButton *cancelButton = new QPushButton("Відміна", this);
     connect(cancelButton, &QPushButton::clicked, this,
             [this]() { done(Cancelled); });
+
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(backButton);
     layout->addWidget(confirmButton);
     layout->addWidget(cancelButton);
+
     adjustSize();
   }
 };

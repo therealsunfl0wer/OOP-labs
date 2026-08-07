@@ -1,12 +1,14 @@
 #include "mainwindow.h"
 #include "module1.h"
-// #include "module2.h"
+#include "module2.h"
+#include <QApplication>
 #include <QLabel>
 #include <QMenu>
 #include <QMenuBar>
+#include <QStyle>
 
 MainWindow::MainWindow() {
-  setWindowTitle("Лабораторна робота 1");
+  setWindowTitle("Лабораторна робота 1, варіант 10");
   setMinimumSize(400, 300);
 
   QLabel *label = new QLabel("Виберіть модуль для запуску", this);
@@ -22,7 +24,18 @@ MainWindow::MainWindow() {
       label->setText("Модуль 1 був скасований.");
     }
   });
+  menu->addAction("Модуль 2, В2 = 3", this, [this, label]() {
+    QString selectedGroup;
+    if (RunModule2(this, selectedGroup)) {
+      if (!selectedGroup.isEmpty()) {
+        label->setText("Вибрана група: " + selectedGroup);
+      } else {
+        label->setText("Модуль 2 завершено успішно!\nГрупа не була вибраною!");
+      }
+    } else {
+      label->setText("Модуль 2 був скасований.");
+    }
+  });
 
-  // menu->addAction("Модуль 2, В2 = 3", this, [this]() { RunModule2(this); });
   adjustSize();
 };
