@@ -1,0 +1,77 @@
+name: Build OOP Labs
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            qt_arch: linux_gcc_64
+          - os: windows-latest
+            qt_arch: win64_msvc2022_64
+          - os: macos-latest
+            qt_arch: clang_64
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Linux build deps
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y ninja-build libgl1-mesa-dev libxkbcommon-dev
+
+      - name: Install Ninja (macOS)
+        if: runner.os == 'macOS'
+        run: brew install ninja
+
+      - name: Set up MSVC (Windows)
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: "6.7.*"
+          arch: ${{ matrix.qt_arch }}
+          cache: true
+
+      # Configures + builds the ROOT CMakeLists.txt, which pulls in
+      # whichever lab subdirectories are currently uncommented.
+      - name: Configure
+        run: cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      # Gathers every lab's install(TARGETS ...) executable into one
+      # flat "install/" folder, instead of hardcoding a path per lab.
+      - name: Install (collect binaries)
+        run: cmake --install build --prefix install
+
+      - name: Bundle Qt runtime (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          for exe in install/*; do
+            [ -f "$exe" ] && [ -x "$exe" ] && macdeployqt "$exe" 2>/dev/null || true
+          done
+
+      - name: Bundle Qt runtime (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Get-ChildItem install\*.exe | ForEach-Object {
+            & "$env:Qt6_DIR/bin/windeployqt.exe" $_.FullName
+          }
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: oop-labs-${{ matrix.os }}
+          path: install/
