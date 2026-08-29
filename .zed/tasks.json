@@ -1,0 +1,183 @@
+// Zed tasks for this repo. Open the picker with the "task: spawn" command
+// (Cmd/Ctrl-Shift-P -> "task: spawn"), or bind a key to a specific task by
+// label in .zed/keymap.json using the "task::Spawn" action with a "task_name"
+// argument. See https://zed.dev/docs/tasks for the full schema.
+[
+  // --- Whole-project lifecycle -------------------------------------------
+  {
+    "label": "cmake: configure",
+    "command": "cmake --preset dev && ln -sf build/compile_commands.json compile_commands.json",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "tags": ["cmake"]
+  },
+  {
+    "label": "cmake: build all",
+    "command": "cmake --build --preset dev",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "tags": ["cmake"]
+  },
+  {
+    "label": "cmake: clean",
+    "command": "rm -rf build compile_commands.json",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "reveal": "always",
+    "tags": ["cmake"]
+  },
+
+  // --- Lab 1 ---------------------------------------------------------------
+  {
+    "label": "build: lab1",
+    "command": "cmake --build --preset dev --target lab1",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "reveal": "always",
+    "tags": ["cmake", "build"]
+  },
+  {
+    "label": "run: lab1",
+    "command": "cmake --build --preset dev --target run-lab1",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": true,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "tags": ["cmake", "run"]
+  },
+
+  // --- Lab 2 ---------------------------------------------------------------
+  {
+    "label": "build: lab2",
+    "command": "cmake --build --preset dev --target lab2",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "reveal": "always",
+    "tags": ["cmake", "build"]
+  },
+  {
+    "label": "run: lab2",
+    "command": "cmake --build --preset dev --target run-lab2",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": true,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "tags": ["cmake", "run"]
+  },
+
+  // --- Lab 3 ---------------------------------------------------------------
+  {
+    "label": "build: lab3",
+    "command": "cmake --build --preset dev --target lab3",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "reveal": "always",
+    "tags": ["cmake", "build"]
+  },
+  {
+    "label": "run: lab3",
+    "command": "cmake --build --preset dev --target run-lab3",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": true,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "tags": ["cmake", "run"]
+  },
+
+  // --- Lab 4 ---------------------------------------------------------------
+  {
+    "label": "build: lab4",
+    "command": "cmake --build --preset dev --target lab4",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "reveal": "always",
+    "tags": ["cmake", "build"]
+  },
+  {
+    "label": "run: lab4",
+    "command": "cmake --build --preset dev --target run-lab4",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": true,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "tags": ["cmake", "run"]
+  },
+
+  // --- Lab 5 ---------------------------------------------------------------
+  {
+    "label": "build: lab5",
+    "command": "cmake --build --preset dev --target lab5",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "reveal": "always",
+    "tags": ["cmake", "build"]
+  },
+  {
+    "label": "run: lab5",
+    "command": "cmake --build --preset dev --target run-lab5",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": true,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "tags": ["cmake", "run"]
+  },
+
+  // --- Lab 6 (two independent processes) ------------------------------------
+  {
+    "label": "build: lab6-sender",
+    "command": "cmake --build --preset dev --target lab6-sender",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "reveal": "always",
+    "tags": ["cmake", "build"]
+  },
+  {
+    "label": "run: lab6-sender",
+    "command": "cmake --build --preset dev --target run-lab6-sender",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": true,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "tags": ["cmake", "run"]
+  },
+  {
+    "label": "build: lab6-receiver",
+    "command": "cmake --build --preset dev --target lab6-receiver",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "reveal": "always",
+    "tags": ["cmake", "build"]
+  },
+  {
+    "label": "run: lab6-receiver",
+    "command": "cmake --build --preset dev --target run-lab6-receiver",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": true,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "tags": ["cmake", "run"]
+  },
+
+  // --- RGR project -----------------------------------------------------------
+  {
+    "label": "build: rgr",
+    "command": "cmake --build --preset dev --target rgr",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "reveal": "always",
+    "tags": ["cmake", "build"]
+  },
+  {
+    "label": "run: rgr",
+    "command": "cmake --build --preset dev --target run-rgr",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": true,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "tags": ["cmake", "run"]
+  }
+]
