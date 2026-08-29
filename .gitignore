@@ -17,9 +17,6 @@ qrc_*.cpp
 ui_*.h
 *.autosave
 
-# Zed editor
-.zed/
-
 # OS / editor cruft
 .DS_Store
 *.swp

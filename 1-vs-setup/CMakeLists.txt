@@ -21,3 +21,10 @@ add_executable(lab1
 )
 
 target_link_libraries(lab1 PRIVATE Qt6::Widgets)
+
+add_custom_target(run-lab1
+    COMMAND lab1
+    DEPENDS lab1
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    USES_TERMINAL
+)

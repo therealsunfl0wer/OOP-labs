@@ -1,14 +1,13 @@
 #include "mainwindow.h"
 #include "module1.h"
 #include "module2.h"
-#include <QApplication>
 #include <QLabel>
 #include <QMenu>
 #include <QMenuBar>
 #include <QStyle>
 
-MainWindow::MainWindow() {
-  setWindowTitle("Лабораторна робота 1, варіант 10");
+MainWindow::MainWindow(QWidget *parent) {
+  setWindowTitle("Лабораторна робота №1, варіант 10");
   setMinimumSize(400, 300);
 
   QLabel *label = new QLabel("Виберіть модуль для запуску", this);
