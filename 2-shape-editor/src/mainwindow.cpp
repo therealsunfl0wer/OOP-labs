@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "canvaswidget.h"
 #include <QActionGroup>
+#include <QLabel>
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QStatusBar>
@@ -9,9 +10,10 @@
 MainWindow::MainWindow(QWidget *parent) {
   setWindowTitle("Лабораторна робота №2, варіант 10");
   setMinimumSize(640, 480);
-
   CanvasWidget *canvas = new CanvasWidget(this);
   setCentralWidget(canvas);
+  QLabel *modeLabel = new QLabel(this);
+  statusBar()->addPermanentWidget(modeLabel);
 
   QMenu *fileMenu = menuBar()->addMenu("Файл");
   fileMenu->addAction("Вихід", this, &QWidget::close);
@@ -21,29 +23,30 @@ MainWindow::MainWindow(QWidget *parent) {
   objectsMenuActionGroup->setExclusive(true);
 
   QAction *pointAction =
-      objectsMenu->addAction("Точка", this, [this, canvas]() {
+      objectsMenu->addAction("Точка", this, [this, modeLabel, canvas]() {
         canvas->selectPointMode();
-        statusBar()->showMessage("Вибрано об'єкт: Точка");
+        modeLabel->setText("Вибрано об'єкт: Точка");
       });
   pointAction->setCheckable(true);
   objectsMenuActionGroup->addAction(pointAction);
-  QAction *lineAction = objectsMenu->addAction("Лінія", this, [this, canvas]() {
-    canvas->selectLineMode();
-    statusBar()->showMessage("Вибрано об'єкт: Лінія");
-  });
+  QAction *lineAction =
+      objectsMenu->addAction("Лінія", this, [this, modeLabel, canvas]() {
+        canvas->selectLineMode();
+        modeLabel->setText("Вибрано об'єкт: Лінія");
+      });
   lineAction->setCheckable(true);
   objectsMenuActionGroup->addAction(lineAction);
   QAction *rectangleAction =
-      objectsMenu->addAction("Прямокутник", this, [this, canvas]() {
+      objectsMenu->addAction("Прямокутник", this, [this, modeLabel, canvas]() {
         canvas->selectRectMode();
-        statusBar()->showMessage("Вибрано об'єкт: Прямокутник");
+        modeLabel->setText("Вибрано об'єкт: Прямокутник");
       });
   rectangleAction->setCheckable(true);
   objectsMenuActionGroup->addAction(rectangleAction);
   QAction *ellipseAction =
-      objectsMenu->addAction("Еліпс", this, [this, canvas]() {
+      objectsMenu->addAction("Еліпс", this, [this, modeLabel, canvas]() {
         canvas->selectEllipseMode();
-        statusBar()->showMessage("Вибрано об'єкт: Еліпс");
+        modeLabel->setText("Вибрано об'єкт: Еліпс");
       });
   ellipseAction->setCheckable(true);
   objectsMenuActionGroup->addAction(ellipseAction);
@@ -54,6 +57,6 @@ MainWindow::MainWindow(QWidget *parent) {
                        "Лабораторна робота №2, варіант 10");
   });
 
-  statusBar()->showMessage("Готово");
+  pointAction->trigger();
   adjustSize();
 }

@@ -70,8 +70,8 @@ protected:
   void DrawPreview(QPainter &painter) const override {
     painter.setPen(QPen(Qt::blue, 1));
     painter.setBrush(Qt::NoBrush);
-    painter.drawEllipse(
-        QRect(QPoint(xstart, ystart), QPoint(xend, yend)).normalized());
+    painter.drawEllipse(QPoint(xstart, ystart), abs(xend - xstart),
+                        abs(yend - ystart));
   }
 };
 

@@ -41,10 +41,9 @@ public:
 class EllipseShape : public Shape {
 public:
   void Show(QPainter &painter) const override {
-    QRect rect(QPoint(xs1, ys1), QPoint(xs2, ys2));
     painter.setPen(QPen(Qt::black, 3));
     painter.setBrush(Qt::NoBrush);
-    painter.drawEllipse(rect.normalized());
+    painter.drawEllipse(QPoint(xs1, ys1), abs(xs2 - xs1), abs(ys2 - ys1));
   }
 };
 
