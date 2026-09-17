@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "module1.h"
+#include "module1/dialog1.h"
 #include "module2.h"
 #include <QLabel>
 #include <QMenu>

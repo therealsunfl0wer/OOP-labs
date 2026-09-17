@@ -4,7 +4,7 @@
   "configurePresets": [
     {
       "name": "dev",
-      "displayName": "Dev (Ninja, compile_commands.json for clangd/Zed)",
+      "displayName": "Dev (Ninja, compile_commands.json for clangd)",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build",
       "cacheVariables": {

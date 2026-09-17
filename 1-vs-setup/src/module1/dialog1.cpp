@@ -1,4 +1,5 @@
-#include "module1.h"
+#include "dialog1.h"
+#include "dialog2.h"
 #include <QApplication>
 #include <QDialog>
 #include <QPushButton>
@@ -30,45 +31,19 @@ public:
   }
 };
 
-class SecondDialog : public QDialog {
-public:
-  enum Result { Back = -1, Cancelled = 0, Confirmed = 1 };
-  SecondDialog(QWidget *parent) : QDialog(parent) {
-    setWindowTitle("Крок 2");
-    setMinimumSize(200, 100);
-
-    QPushButton *backButton = new QPushButton("< Назад", this);
-    connect(backButton, &QPushButton::clicked, this, [this]() { done(Back); });
-    QPushButton *confirmButton = new QPushButton("Так", this);
-    connect(confirmButton, &QPushButton::clicked, this,
-            [this]() { done(Confirmed); });
-    QPushButton *cancelButton = new QPushButton("Відміна", this);
-    connect(cancelButton, &QPushButton::clicked, this,
-            [this]() { done(Cancelled); });
-
-    QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->addWidget(backButton);
-    layout->addWidget(confirmButton);
-    layout->addWidget(cancelButton);
-
-    adjustSize();
-  }
-};
-
 } // namespace
 
 bool RunModule1(QWidget *parent) {
+  enum Result { Back = -1, Cancelled = 0, Confirmed = 1 };
   while (true) {
     FirstDialog first(parent);
     if (first.exec() != QDialog::Accepted)
       return false;
-
-    SecondDialog second(parent);
-    int result = second.exec();
-    if (result == SecondDialog::Confirmed)
+    int dialog2SIG = RunModule1Dialog2(parent);
+    if ((Result)dialog2SIG == Confirmed)
       return true;
-    if (result == SecondDialog::Back)
+    if ((Result)dialog2SIG == Back)
       continue;
     return false;
-  }
+  };
 }

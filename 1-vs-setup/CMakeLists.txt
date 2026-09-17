@@ -12,12 +12,14 @@ add_executable(lab1
     src/main.cpp
     src/mainwindow.cpp
     src/mainwindow.h
-    src/module1.cpp
-    src/module1.h
     src/module2.cpp
     src/module2.h
     src/groups.cpp
     src/groups.h
+    src/module1/dialog1.cpp
+    src/module1/dialog1.h
+    src/module1/dialog2.cpp
+    src/module1/dialog2.h
 )
 
 target_link_libraries(lab1 PRIVATE Qt6::Widgets)

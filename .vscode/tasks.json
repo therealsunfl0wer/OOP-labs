@@ -1,0 +1,255 @@
+// VSCode tasks for this repo. Open the picker with the "Tasks: Run Task" or "Tasks: Run Build Task" command
+// (Cmd/Ctrl-Shift-P -> "Tasks: Run Task"), or bind a key to a specific task using the 
+// argument. See https://code.visualstudio.com/docs/reference/tasks-appendix for the full schema.
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "cmake: configure",
+      "type": "shell",
+      "command": "cmake --preset dev && ln -sf build/compile_commands.json compile_commands.json",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "cmake: build all",
+      "type": "shell",
+      "command": "cmake --build --preset dev",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "cmake: clean",
+      "type": "shell",
+      "command": "rm -rf build compile_commands.json",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "build: lab1",
+      "type": "shell",
+      "command": "cmake --build --preset dev --target lab1",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "run: lab1",
+      "type": "shell",
+      "command": "cmake --build --preset dev --target run-lab1",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "build: lab2",
+      "type": "shell",
+      "command": "cmake --build --preset dev --target lab2",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "run: lab2",
+      "type": "shell",
+      "command": "cmake --build --preset dev --target run-lab2",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "build: lab3",
+      "type": "shell",
+      "command": "cmake --build --preset dev --target lab3",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "run: lab3",
+      "type": "shell",
+      "command": "cmake --build --preset dev --target run-lab3",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "build: lab4",
+      "type": "shell",
+      "command": "cmake --build --preset dev --target lab4",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "run: lab4",
+      "type": "shell",
+      "command": "cmake --build --preset dev --target run-lab4",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "build: lab5",
+      "type": "shell",
+      "command": "cmake --build --preset dev --target lab5",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "run: lab5",
+      "type": "shell",
+      "command": "cmake --build --preset dev --target run-lab5",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "build: lab6-sender",
+      "type": "shell",
+      "command": "cmake --build --preset dev --target lab6-sender",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "run: lab6-sender",
+      "type": "shell",
+      "command": "cmake --build --preset dev --target run-lab6-sender",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "build: lab6-receiver",
+      "type": "shell",
+      "command": "cmake --build --preset dev --target lab6-receiver",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "run: lab6-receiver",
+      "type": "shell",
+      "command": "cmake --build --preset dev --target run-lab6-receiver",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "build: rgr",
+      "type": "shell",
+      "command": "cmake --build --preset dev --target rgr",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "run: rgr",
+      "type": "shell",
+      "command": "cmake --build --preset dev --target run-rgr",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
