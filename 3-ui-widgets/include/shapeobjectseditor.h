@@ -7,6 +7,9 @@
 class ShapeObjectsEditor {
   static constexpr int MAX_SHAPES = 111;
   Shape *shapes[MAX_SHAPES] = {};
+  
+  // ultra-janky workaround for the space constraints stated
+  // by the lab's requirements
   int bufferIndex = 0;
   bool full = false;
 

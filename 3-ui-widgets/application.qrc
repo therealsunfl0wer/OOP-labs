@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="rectangle">resources/draw-rectangle.svg</file>
+        <file alias="point">resources/draw-point.svg</file>
+        <file alias="ellipse">resources/draw-ellipse.svg</file>
+        <file alias="line">resources/draw-line.svg</file>
+    </qresource>
+</RCC>

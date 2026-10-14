@@ -7,7 +7,7 @@ ShapeObjectsEditor::ShapeObjectsEditor() {
 
 ShapeObjectsEditor::~ShapeObjectsEditor() {
   delete currentEditor;
-  for (int i = 0; i < bufferIndex; ++i)
+  for (int i = 0; i < validShapes(); ++i)
     delete shapes[i];
 }
 
@@ -44,8 +44,12 @@ void ShapeObjectsEditor::OnMouseMove(QPoint pt) {
 }
 
 void ShapeObjectsEditor::OnPaint(QPainter &painter) const {
-  for (int i = 0; i < validShapes(); ++i)
-    shapes[i]->Show(painter);
+  int startIdx = full ? bufferIndex : 0;
+
+  for (int i = 0; i < validShapes(); ++i) {
+    int idx = (startIdx + i) % MAX_SHAPES;
+    shapes[idx]->Show(painter);
+  }
 
   currentEditor->OnPaint(painter);
 }
