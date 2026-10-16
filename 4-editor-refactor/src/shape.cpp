@@ -4,6 +4,16 @@
 #include <QPen>
 #include <QPoint>
 
+void Shape::setStyle(QPainter &painter) const {
+  if (isDrawing) {
+    painter.setPen(QPen(Qt::black, 1, Qt::DashLine));
+    painter.setBrush(Qt::NoBrush);
+  } else {
+    painter.setPen(QPen(Qt::black, 3));
+    painter.setBrush(Qt::NoBrush);
+  }
+}
+
 void Shape::Set(int x1, int y1, int x2, int y2) {
   xs1 = x1;
   ys1 = y1;
@@ -14,7 +24,7 @@ void Shape::Set(int x1, int y1, int x2, int y2) {
 class PointShape : public virtual Shape {
 public:
   void Show(QPainter &painter) const override {
-    painter.setPen(QPen(Qt::black, 3));
+    setStyle(painter);
     Show(painter, xs1, ys1, xs2, ys2);
   }
   void Show(QPainter &painter, int x1, int y1, int x2, int y2) const {
@@ -26,7 +36,7 @@ public:
 class LineShape : public virtual Shape {
 public:
   void Show(QPainter &painter) const override {
-    painter.setPen(QPen(Qt::black, 3));
+    setStyle(painter);
     Show(painter, xs1, ys1, xs2, ys2);
   }
   void Show(QPainter &painter, int x1, int y1, int x2, int y2) const {
@@ -40,21 +50,29 @@ protected:
   // needed for composite shapes to avoid calculation mishaps
   // draws corner-to-corner
   void ShowBaseShape(QPainter &painter, int x1, int y1, int x2, int y2) const {
+    Shape::setStyle(painter);
     painter.drawRect(QRect(QPoint(x1, y1), QPoint(x2, y2)).normalized());
   }
 
 public:
   void Show(QPainter &painter) const override {
-    painter.setPen(QPen(Qt::black, 3));
-    painter.setBrush(QBrush(Qt::gray, Qt::SolidPattern));
+    setStyle(painter);
     Show(painter, xs1, ys1, xs2, ys2);
-    painter.setBrush(Qt::NoBrush);
+  }
+  void setStyle(QPainter &painter) const override {
+    if (isDrawing) {
+      painter.setPen(QPen(Qt::black, 1, Qt::DashLine));
+      painter.setBrush(Qt::NoBrush);
+    } else {
+      painter.setPen(QPen(Qt::black, 3));
+      painter.setBrush(QBrush(Qt::gray, Qt::SolidPattern));
+    }
   }
   // draws center-to-corner
   void Show(QPainter &painter, int x1, int y1, int x2, int y2) const {
     painter.drawRect(
-        QRect(QPoint(x1 - std::abs(x2 - x1), y1 - std::abs(y2 - y1)),
-              QPoint(x1 + std::abs(x2 - x1), y1 + std::abs(y2 - y1)))
+        QRect(QPoint(x1 - abs(x2 - x1), y1 - abs(y2 - y1)),
+              QPoint(x1 + abs(x2 - x1), y1 + abs(y2 - y1)))
             .normalized());
   }
   Shape *Clone() const override { return new RectShape(*this); }
@@ -63,10 +81,17 @@ public:
 class EllipseShape : public virtual Shape {
 public:
   void Show(QPainter &painter) const override {
-    painter.setPen(QPen(Qt::black, 3));
-    painter.setBrush(QBrush(Qt::white, Qt::SolidPattern));
+    setStyle(painter);
     Show(painter, xs1, ys1, xs2, ys2);
-    painter.setBrush(Qt::NoBrush);
+  }
+  void setStyle(QPainter &painter) const override {
+    if (isDrawing) {
+      painter.setPen(QPen(Qt::black, 1, Qt::DashLine));
+      painter.setBrush(Qt::NoBrush);
+    } else {
+      painter.setPen(QPen(Qt::black, 3));
+      painter.setBrush(QBrush(Qt::white, Qt::SolidPattern));
+    }
   }
   void Show(QPainter &painter, int x1, int y1, int x2, int y2) const {
     painter.drawEllipse(QRect(QPoint(x1, y1), QPoint(x2, y2)).normalized());
@@ -77,13 +102,24 @@ public:
 class LineOOShape : public LineShape, public EllipseShape {
 public:
   void Show(QPainter &painter) const override {
+    setStyle(painter);
+    Show(painter, xs1, ys1, xs2, ys2);
+  }
+  void setStyle(QPainter &painter) const override {
+    if (isDrawing) {
+      painter.setPen(QPen(Qt::black, 1, Qt::DashLine));
+      painter.setBrush(Qt::NoBrush);
+    } else {
+      painter.setPen(QPen(Qt::black, 3));
+      painter.setBrush(QBrush(Qt::white, Qt::SolidPattern));
+    }
+  }
+  void Show(QPainter &painter, int x1, int y1, int x2, int y2) const {
     LineShape::Show(painter);
 
     int r = 4;
-    EllipseShape::Show(painter, LineShape::xs1 - r, LineShape::ys1 - r,
-                       LineShape::xs1 + r, LineShape::ys1 + r);
-    EllipseShape::Show(painter, LineShape::xs2 - r, LineShape::ys2 - r,
-                       LineShape::xs2 + r, LineShape::ys2 + r);
+    EllipseShape::Show(painter, x1 - r, y1 - r, x1 + r, y1 + r);
+    EllipseShape::Show(painter, x2 - r, y2 - r, x2 + r, y2 + r);
   }
   Shape *Clone() const override { return new LineOOShape(*this); }
 };
@@ -91,7 +127,7 @@ public:
 class CubeShape : public LineShape, public RectShape {
 public:
   void Show(QPainter &painter) const override {
-    painter.setPen(QPen(Qt::black, 3));
+    setStyle(painter);
     Show(painter, xs1, ys1, xs2, ys2);
   }
 

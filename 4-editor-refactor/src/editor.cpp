@@ -16,7 +16,7 @@ void Editor::Start(Shape *selected) {
 void Editor::onLBDown(QPoint pt) {
   if (current == nullptr)
     return;
-  isDrawing = true;
+  current->isDrawing = true;
 
   xstart = pt.x();
   ystart = pt.y();
@@ -25,7 +25,7 @@ void Editor::onLBDown(QPoint pt) {
 void Editor::onMouseMove(QPoint pt) {
   if (current == nullptr)
     return;
-  if (!isDrawing)
+  if (!current->isDrawing)
     return;
   current->Set(xstart, ystart, pt.x(), pt.y());
 }
@@ -33,10 +33,10 @@ void Editor::onMouseMove(QPoint pt) {
 void Editor::onLBUp(QPoint pt) {
   if (current == nullptr)
     return;
-  if (!isDrawing)
+  if (!current->isDrawing)
     return;
 
-  isDrawing = false;
+  current->isDrawing = false;
   current->Set(xstart, ystart, pt.x(), pt.y());
 
   shapes.push_back(current->Clone());
@@ -48,9 +48,7 @@ void Editor::onPaint(QPainter &painter) const {
     s->Show(painter);
   if (current == nullptr)
     return;
-  if (isDrawing) {
-    painter.setPen(QPen(Qt::black, 1, Qt::DashLine));
-    painter.setBrush(Qt::NoBrush);
+  if (current->isDrawing) {
     current->Show(painter);
   }
 }

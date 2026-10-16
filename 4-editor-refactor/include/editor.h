@@ -10,7 +10,6 @@ class Shape; // forward declaration, Editor doesn't know about Shape
 class Editor {
   // no point in constructor when using a vector class
   std::vector<Shape *> shapes;
-  bool isDrawing = false;
   int xstart, ystart;
   
   public:

@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   QMenu *helpMenu = menuBar()->addMenu("Довідка");
   helpMenu->addAction("Про програму", this, [this]() {
     QMessageBox::about(this, "Про програму",
-                       "Лабораторна робота №3, варіант 10");
+                       "Лабораторна робота №4, варіант 10");
   });
 
   QToolBar *toolBar = addToolBar("Об'єкти");
