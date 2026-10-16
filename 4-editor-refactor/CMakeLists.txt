@@ -1,14 +1,14 @@
 cmake_minimum_required(VERSION 3.20)
 project(Lab4 LANGUAGES CXX)
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Svg)
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS src/*.cpp)
 file(GLOB_RECURSE HEADERS CONFIGURE_DEPENDS include/*.h)
 
-add_executable(lab4 ${SOURCES} ${HEADERS})
+add_executable(lab4 application.qrc ${SOURCES} ${HEADERS})
 target_include_directories(lab4 PRIVATE include)
-target_link_libraries(lab4 PRIVATE Qt6::Widgets)
+target_link_libraries(lab4 PRIVATE Qt6::Widgets Qt6::Svg)
 
 add_custom_target(run-lab4
     COMMAND lab4
