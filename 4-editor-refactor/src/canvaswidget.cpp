@@ -43,7 +43,7 @@ void CanvasWidget::mouseMoveEvent(QMouseEvent *event) {
 }
 
 void CanvasWidget::mouseReleaseEvent(QMouseEvent *event) {
-    switch (event->button()) {
+  switch (event->button()) {
   case Qt::LeftButton:
     editor->onLBUp(event->pos());
     update();
