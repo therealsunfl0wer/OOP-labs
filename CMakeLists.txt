@@ -16,7 +16,7 @@ add_subdirectory(1-vs-setup)
 add_subdirectory(2-shape-editor)
 add_subdirectory(3-ui-widgets)
 add_subdirectory(4-editor-refactor)
-# add_subdirectory(5-multiwindow-editor)
+add_subdirectory(5-multiwindow-editor)
 # add_subdirectory(6-message-driven-system/sender)
 # add_subdirectory(6-message-driven-system/receiver)
 

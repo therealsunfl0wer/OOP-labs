@@ -22,7 +22,7 @@ progress on the six hands-on labs.
 |  [✅]   | `2-shape-editor`          | **OOP Graphics Editor (Encapsulation/Inheritance/Polymorphism)** |    03.10     |
 |  [✅]   | `3-ui-widgets`            | **User Interface Controls & Elements**                           |    10.10     |
 |  [✅]   | `4-editor-refactor`       | **Editor Architecture Refactor (Decoupling)**                    |    24.10     |
-|  [ ]   | `5-multiwindow-editor`    | **Multi-Window UI & Singleton Pattern**                          |    7.11     |
+|  [➖]   | `5-multiwindow-editor`    | **Multi-Window UI & Singleton Pattern**                          |    7.11     |
 |  [ ]   | `6-message-driven-system` | **Message-Driven Multi-Component System**                        |    21.11     |
 
 ---
