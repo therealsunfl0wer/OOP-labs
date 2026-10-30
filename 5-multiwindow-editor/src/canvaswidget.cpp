@@ -4,12 +4,13 @@
 
 CanvasWidget::CanvasWidget(QWidget *parent) : QWidget(parent) {
   setMinimumSize(600, 400);
+  setAutoFillBackground(true);
+  setPalette(QPalette(QPalette::Window, Qt::white));
 }
 
 void CanvasWidget::paintEvent(QPaintEvent *) {
   QPainter painter(this);
   painter.setRenderHint(QPainter::Antialiasing);
-  painter.fillRect(rect(), Qt::white);
   editor->onPaint(painter);
 }
 
