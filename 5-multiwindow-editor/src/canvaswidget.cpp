@@ -16,7 +16,7 @@ void CanvasWidget::paintEvent(QPaintEvent *) {
 void CanvasWidget::mousePressEvent(QMouseEvent *event) {
   switch (event->button()) {
   case Qt::LeftButton:
-    editor->onLBDown(event->pos());
+    editor->onLeftButtonPress(event->pos());
     update();
     break;
   case Qt::RightButton:
@@ -34,7 +34,7 @@ void CanvasWidget::mouseMoveEvent(QMouseEvent *event) {
 void CanvasWidget::mouseReleaseEvent(QMouseEvent *event) {
   switch (event->button()) {
   case Qt::LeftButton:
-    editor->onLBUp(event->pos());
+    editor->onLeftButtonRelease(event->pos());
     update();
     break;
   case Qt::RightButton:

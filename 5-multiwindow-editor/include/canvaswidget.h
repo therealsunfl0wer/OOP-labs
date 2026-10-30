@@ -19,7 +19,7 @@ public:
           << "ShapeFactory::instance().create(id): Shape not found in registry!"
           << std::endl;
     else
-      editor->Start(shape);
+      editor->setShape(shape);
   }
 
 protected:

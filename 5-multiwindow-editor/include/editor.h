@@ -29,9 +29,9 @@ public:
   Editor(const Editor &) = delete;
   Editor &operator=(const Editor &) = delete;
 
-  void Start(Shape *selected);
-  void onLBDown(QPoint pt);
-  void onLBUp(QPoint pt);
+  void setShape(Shape *selected);
+  void onLeftButtonPress(QPoint pt);
+  void onLeftButtonRelease(QPoint pt);
   void onMouseMove(QPoint pt);
   void onPaint(QPainter &painter) const;
 };

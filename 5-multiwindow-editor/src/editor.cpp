@@ -10,12 +10,12 @@ Editor::~Editor() {
   }
 }
 
-void Editor::Start(Shape *selected) {
+void Editor::setShape(Shape *selected) {
   delete current;
   current = selected;
 }
 
-void Editor::onLBDown(QPoint pt) {
+void Editor::onLeftButtonPress(QPoint pt) {
   if (current == nullptr)
     return;
   current->isDrawing = true;
@@ -29,28 +29,28 @@ void Editor::onMouseMove(QPoint pt) {
     return;
   if (!current->isDrawing)
     return;
-  current->Set(xstart, ystart, pt.x(), pt.y());
+  current->set(xstart, ystart, pt.x(), pt.y());
 }
 
-void Editor::onLBUp(QPoint pt) {
+void Editor::onLeftButtonRelease(QPoint pt) {
   if (current == nullptr)
     return;
   if (!current->isDrawing)
     return;
 
   current->isDrawing = false;
-  current->Set(xstart, ystart, pt.x(), pt.y());
+  current->set(xstart, ystart, pt.x(), pt.y());
 
-  shapes.push_back(current->Clone());
+  shapes.push_back(current->clone());
   return;
 }
 
 void Editor::onPaint(QPainter &painter) const {
   for (Shape *s : shapes)
-    s->Show(painter);
+    s->show(painter);
   if (current == nullptr)
     return;
   if (current->isDrawing) {
-    current->Show(painter);
+    current->show(painter);
   }
 }

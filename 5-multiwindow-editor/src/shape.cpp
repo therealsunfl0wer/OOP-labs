@@ -17,26 +17,26 @@ void Shape::setStyle(QPainter &painter) const {
 
 class PointShape : public virtual Shape {
 public:
-  void Show(QPainter &painter) const override {
+  void show(QPainter &painter) const override {
     setStyle(painter);
-    Show(painter, xs1, ys1, xs2, ys2);
+    show(painter, xs1, ys1, xs2, ys2);
   }
-  void Show(QPainter &painter, int x1, int y1, int x2, int y2) const {
+  void show(QPainter &painter, int x1, int y1, int x2, int y2) const {
     painter.drawPoint(QPoint(x2, y2));
   }
-  Shape *Clone() const override { return new PointShape(*this); }
+  Shape *clone() const override { return new PointShape(*this); }
 };
 
 class LineShape : public virtual Shape {
 public:
-  void Show(QPainter &painter) const override {
+  void show(QPainter &painter) const override {
     setStyle(painter);
-    Show(painter, xs1, ys1, xs2, ys2);
+    show(painter, xs1, ys1, xs2, ys2);
   }
-  void Show(QPainter &painter, int x1, int y1, int x2, int y2) const {
+  void show(QPainter &painter, int x1, int y1, int x2, int y2) const {
     painter.drawLine(QLine(QPoint(x1, y1), QPoint(x2, y2)));
   }
-  Shape *Clone() const override { return new LineShape(*this); }
+  Shape *clone() const override { return new LineShape(*this); }
 };
 
 class RectShape : public virtual Shape {
@@ -49,9 +49,9 @@ protected:
   }
 
 public:
-  void Show(QPainter &painter) const override {
+  void show(QPainter &painter) const override {
     setStyle(painter);
-    Show(painter, xs1, ys1, xs2, ys2);
+    show(painter, xs1, ys1, xs2, ys2);
   }
   void setStyle(QPainter &painter) const override {
     if (isDrawing) {
@@ -63,19 +63,19 @@ public:
     }
   }
   // draws center-to-corner
-  void Show(QPainter &painter, int x1, int y1, int x2, int y2) const {
+  void show(QPainter &painter, int x1, int y1, int x2, int y2) const {
     painter.drawRect(QRect(QPoint(x1 - abs(x2 - x1), y1 - abs(y2 - y1)),
                            QPoint(x1 + abs(x2 - x1), y1 + abs(y2 - y1)))
                          .normalized());
   }
-  Shape *Clone() const override { return new RectShape(*this); }
+  Shape *clone() const override { return new RectShape(*this); }
 };
 
 class EllipseShape : public virtual Shape {
 public:
-  void Show(QPainter &painter) const override {
+  void show(QPainter &painter) const override {
     setStyle(painter);
-    Show(painter, xs1, ys1, xs2, ys2);
+    show(painter, xs1, ys1, xs2, ys2);
   }
   void setStyle(QPainter &painter) const override {
     if (isDrawing) {
@@ -86,17 +86,17 @@ public:
       painter.setBrush(QBrush(Qt::white, Qt::SolidPattern));
     }
   }
-  void Show(QPainter &painter, int x1, int y1, int x2, int y2) const {
+  void show(QPainter &painter, int x1, int y1, int x2, int y2) const {
     painter.drawEllipse(QRect(QPoint(x1, y1), QPoint(x2, y2)).normalized());
   }
-  Shape *Clone() const override { return new EllipseShape(*this); }
+  Shape *clone() const override { return new EllipseShape(*this); }
 };
 
 class LineOOShape : public LineShape, public EllipseShape {
 public:
-  void Show(QPainter &painter) const override {
+  void show(QPainter &painter) const override {
     setStyle(painter);
-    Show(painter, xs1, ys1, xs2, ys2);
+    show(painter, xs1, ys1, xs2, ys2);
   }
   void setStyle(QPainter &painter) const override {
     if (isDrawing) {
@@ -107,34 +107,34 @@ public:
       painter.setBrush(QBrush(Qt::white, Qt::SolidPattern));
     }
   }
-  void Show(QPainter &painter, int x1, int y1, int x2, int y2) const {
-    LineShape::Show(painter);
+  void show(QPainter &painter, int x1, int y1, int x2, int y2) const {
+    LineShape::show(painter);
 
     int r = 4;
-    EllipseShape::Show(painter, x1 - r, y1 - r, x1 + r, y1 + r);
-    EllipseShape::Show(painter, x2 - r, y2 - r, x2 + r, y2 + r);
+    EllipseShape::show(painter, x1 - r, y1 - r, x1 + r, y1 + r);
+    EllipseShape::show(painter, x2 - r, y2 - r, x2 + r, y2 + r);
   }
-  Shape *Clone() const override { return new LineOOShape(*this); }
+  Shape *clone() const override { return new LineOOShape(*this); }
 };
 
 class CubeShape : public LineShape, public RectShape {
 public:
-  void Show(QPainter &painter) const override {
+  void show(QPainter &painter) const override {
     setStyle(painter);
-    Show(painter, xs1, ys1, xs2, ys2);
+    show(painter, xs1, ys1, xs2, ys2);
   }
 
-  void Show(QPainter &painter, int x1, int y1, int x2, int y2) const {
+  void show(QPainter &painter, int x1, int y1, int x2, int y2) const {
     int d = 20;
 
     RectShape::ShowBaseShape(painter, x1, y1, x2, y2);
     RectShape::ShowBaseShape(painter, x1 + d, y1 - d, x2 + d, y2 - d);
-    LineShape::Show(painter, x1, y1, x1 + d, y1 - d);
-    LineShape::Show(painter, x2, y1, x2 + d, y1 - d);
-    LineShape::Show(painter, x1, y2, x1 + d, y2 - d);
-    LineShape::Show(painter, x2, y2, x2 + d, y2 - d);
+    LineShape::show(painter, x1, y1, x1 + d, y1 - d);
+    LineShape::show(painter, x2, y1, x2 + d, y1 - d);
+    LineShape::show(painter, x1, y2, x1 + d, y2 - d);
+    LineShape::show(painter, x2, y2, x2 + d, y2 - d);
   }
-  Shape *Clone() const override { return new CubeShape(*this); }
+  Shape *clone() const override { return new CubeShape(*this); }
 };
 
 ShapeFactory::ShapeFactory() {
