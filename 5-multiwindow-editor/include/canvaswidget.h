@@ -2,25 +2,15 @@
 #define CANVASWIDGET_H
 
 #include "editor.h"
-#include "shapefactory.h"
+#include <QString>
 #include <QWidget>
-#include <iostream>
-#include <string>
 
 class CanvasWidget : public QWidget {
   Q_OBJECT
 public:
   explicit CanvasWidget(QWidget *parent = nullptr);
 
-  void selectShape(const std::string &id) {
-    Shape *shape = ShapeFactory::instance().create(id);
-    if (shape == nullptr)
-      std::cerr
-          << "ShapeFactory::instance().create(id): Shape not found in registry!"
-          << std::endl;
-    else
-      editor->setShape(shape);
-  }
+  void selectShape(const QString &id);
 
 protected:
   void paintEvent(QPaintEvent *event) override;

@@ -1,18 +1,20 @@
 #include "editor.h"
 #include "shape.h"
+#include <utility>
 
 Editor *Editor::singleton = nullptr;
 
-Editor::~Editor() {
-  delete current;
-  for (Shape *s : shapes) {
-    delete s;
-  }
+Editor::Editor() = default;
+Editor::~Editor() = default;
+
+void Editor::clear() { shapes.clear(); }
+
+void Editor::setShape(std::unique_ptr<Shape> selected) {
+  current = std::move(selected);
 }
 
-void Editor::setShape(Shape *selected) {
-  delete current;
-  current = selected;
+void Editor::addShape(std::unique_ptr<Shape> s) {
+  shapes.push_back(std::move(s));
 }
 
 void Editor::onLeftButtonPress(QPoint pt) {
@@ -22,14 +24,8 @@ void Editor::onLeftButtonPress(QPoint pt) {
 
   xstart = pt.x();
   ystart = pt.y();
-}
 
-void Editor::onMouseMove(QPoint pt) {
-  if (current == nullptr)
-    return;
-  if (!current->isDrawing)
-    return;
-  current->set(xstart, ystart, pt.x(), pt.y());
+  notify();
 }
 
 void Editor::onLeftButtonRelease(QPoint pt) {
@@ -39,14 +35,25 @@ void Editor::onLeftButtonRelease(QPoint pt) {
     return;
 
   current->isDrawing = false;
-  current->set(xstart, ystart, pt.x(), pt.y());
+  current->setCoords(xstart, ystart, pt.x(), pt.y());
 
   shapes.push_back(current->clone());
-  return;
+
+  notify();
+}
+
+void Editor::onMouseMove(QPoint pt) {
+  if (current == nullptr)
+    return;
+  if (!current->isDrawing)
+    return;
+  current->setCoords(xstart, ystart, pt.x(), pt.y());
+
+  notify();
 }
 
 void Editor::onPaint(QPainter &painter) const {
-  for (Shape *s : shapes)
+  for (const std::unique_ptr<Shape> &s : shapes)
     s->show(painter);
   if (current == nullptr)
     return;

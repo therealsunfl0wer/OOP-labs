@@ -3,27 +3,28 @@
 
 #include <QString>
 #include <functional>
-#include <string>
+#include <memory>
 #include <utility>
 #include <vector>
 
 class Shape;
 
 struct ShapeEntry {
-  std::string id;
+  QString id;
   QString name;
   QString iconPath;
-  std::function<Shape *()> create;
+  std::function<std::unique_ptr<Shape>()> create;
 };
 
 class ShapeFactory {
   ShapeFactory();
   ~ShapeFactory() = default;
   std::vector<ShapeEntry> shapes;
-  void add(std::string id, QString name, QString iconPath,
-           std::function<Shape *()> create) {
+  void add(QString id, QString name, QString iconPath,
+           std::function<std::unique_ptr<Shape>()> create) {
     shapes.push_back(
-        {std::move(id), std::move(name), std::move(iconPath), create});
+        {std::move(id), std::move(name), std::move(iconPath),
+         std::move(create)});
   }
 
 public:
@@ -34,7 +35,7 @@ public:
     static ShapeFactory factory;
     return factory;
   }
-  Shape *create(const std::string &id) const;
+  std::unique_ptr<Shape> create(const QString &id) const;
   const std::vector<ShapeEntry> &registry() const { return shapes; }
 };
 

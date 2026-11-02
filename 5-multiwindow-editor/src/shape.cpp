@@ -24,7 +24,9 @@ public:
   void show(QPainter &painter, int x1, int y1, int x2, int y2) const {
     painter.drawPoint(QPoint(x2, y2));
   }
-  Shape *clone() const override { return new PointShape(*this); }
+  std::unique_ptr<Shape> clone() const override {
+    return std::make_unique<PointShape>(*this);
+  }
 };
 
 class LineShape : public virtual Shape {
@@ -36,7 +38,9 @@ public:
   void show(QPainter &painter, int x1, int y1, int x2, int y2) const {
     painter.drawLine(QLine(QPoint(x1, y1), QPoint(x2, y2)));
   }
-  Shape *clone() const override { return new LineShape(*this); }
+  std::unique_ptr<Shape> clone() const override {
+    return std::make_unique<LineShape>(*this);
+  }
 };
 
 class RectShape : public virtual Shape {
@@ -68,7 +72,9 @@ public:
                            QPoint(x1 + abs(x2 - x1), y1 + abs(y2 - y1)))
                          .normalized());
   }
-  Shape *clone() const override { return new RectShape(*this); }
+  std::unique_ptr<Shape> clone() const override {
+    return std::make_unique<RectShape>(*this);
+  }
 };
 
 class EllipseShape : public virtual Shape {
@@ -89,7 +95,9 @@ public:
   void show(QPainter &painter, int x1, int y1, int x2, int y2) const {
     painter.drawEllipse(QRect(QPoint(x1, y1), QPoint(x2, y2)).normalized());
   }
-  Shape *clone() const override { return new EllipseShape(*this); }
+  std::unique_ptr<Shape> clone() const override {
+    return std::make_unique<EllipseShape>(*this);
+  }
 };
 
 class LineOOShape : public LineShape, public EllipseShape {
@@ -114,7 +122,9 @@ public:
     EllipseShape::show(painter, x1 - r, y1 - r, x1 + r, y1 + r);
     EllipseShape::show(painter, x2 - r, y2 - r, x2 + r, y2 + r);
   }
-  Shape *clone() const override { return new LineOOShape(*this); }
+  std::unique_ptr<Shape> clone() const override {
+    return std::make_unique<LineOOShape>(*this);
+  }
 };
 
 class CubeShape : public LineShape, public RectShape {
@@ -134,25 +144,39 @@ public:
     LineShape::show(painter, x1, y2, x1 + d, y2 - d);
     LineShape::show(painter, x2, y2, x2 + d, y2 - d);
   }
-  Shape *clone() const override { return new CubeShape(*this); }
+  std::unique_ptr<Shape> clone() const override {
+    return std::make_unique<CubeShape>(*this);
+  }
 };
 
 ShapeFactory::ShapeFactory() {
   add("point", QString("Точка"), QString(":point"),
-      []() -> Shape * { return new PointShape(); });
+      []() -> std::unique_ptr<Shape> {
+        return std::make_unique<PointShape>();
+      });
 
   add("line", QString("Лінія"), QString(":line"),
-      []() -> Shape * { return new LineShape(); });
+      []() -> std::unique_ptr<Shape> {
+        return std::make_unique<LineShape>();
+      });
 
   add("rectangle", QString("Прямокутник"), QString(":rectangle"),
-      []() -> Shape * { return new RectShape(); });
+      []() -> std::unique_ptr<Shape> {
+        return std::make_unique<RectShape>();
+      });
 
   add("ellipse", QString("Еліпс"), QString(":ellipse"),
-      []() -> Shape * { return new EllipseShape(); });
+      []() -> std::unique_ptr<Shape> {
+        return std::make_unique<EllipseShape>();
+      });
 
   add("line-oo", QString("Лінія з кружечками"), QString(":o-o-line"),
-      []() -> Shape * { return new LineOOShape(); });
+      []() -> std::unique_ptr<Shape> {
+        return std::make_unique<LineOOShape>();
+      });
 
   add("cube", QString("Куб"), QString(":cuboid"),
-      []() -> Shape * { return new CubeShape(); });
+      []() -> std::unique_ptr<Shape> {
+        return std::make_unique<CubeShape>();
+      });
 }

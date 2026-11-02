@@ -3,17 +3,28 @@
 
 #include <QPainter>
 #include <QPoint>
+#include <functional>
+#include <memory>
 #include <vector>
 
 class Shape; // forward declaration, Editor doesn't know about Shape
 
 class Editor {
-  Editor() = default; // constructors and destructors are public by default
+  Editor();
   ~Editor();
+
   static Editor *singleton;
-  std::vector<Shape *> shapes;
+
+  std::vector<std::unique_ptr<Shape>> shapes;
   int xstart, ystart;
-  Shape *current = nullptr;
+  std::unique_ptr<Shape> current;
+
+  std::vector<std::function<void()>> subscribed;
+  void notify() {
+    for (std::function<void()> sub : subscribed) {
+      sub();
+    }
+  }
 
 public:
   static Editor *instance() {
@@ -29,11 +40,28 @@ public:
   Editor(const Editor &) = delete;
   Editor &operator=(const Editor &) = delete;
 
-  void setShape(Shape *selected);
+  // TODO: add ids for subscribed callbacks
+  // fine for now as the lifetime of CanvasWidget is same as MainWindow's
+  void subscribe(std::function<void()> callback) {
+    subscribed.push_back(callback);
+  }
+
+  // TODO:
+  // void unsubscribe(const &id) const {}
+
+  void clear();
+  size_t entries() const { return shapes.size(); }
+  const Shape *getShape(size_t shapeAt) const {
+    return shapes.at(shapeAt).get();
+  }
+
+  void setShape(std::unique_ptr<Shape> selected);
+  void addShape(std::unique_ptr<Shape> s);
   void onLeftButtonPress(QPoint pt);
   void onLeftButtonRelease(QPoint pt);
   void onMouseMove(QPoint pt);
   void onPaint(QPainter &painter) const;
+  void onReload() { notify(); }
 };
 
 #endif // EDITOR_H
