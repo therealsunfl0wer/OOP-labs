@@ -5,14 +5,31 @@
 #include <QPen>
 #include <QPoint>
 
+namespace {
+
+static QPen defaultPreviewStyle() { return {Qt::black, 1, Qt::DashLine}; }
+static QPen defaultFinalStyle() { return {Qt::black, 3}; }
+static QPen defaultSelectedStyle() { return {Qt::red, 5}; }
+
+} // namespace
+
+QBrush Shape::fill() const { return Qt::NoBrush; }
+
 void Shape::setStyle(QPainter &painter) const {
-  if (isDrawing) {
-    painter.setPen(QPen(Qt::black, 1, Qt::DashLine));
-    painter.setBrush(Qt::NoBrush);
-  } else {
-    painter.setPen(QPen(Qt::black, 3));
-    painter.setBrush(Qt::NoBrush);
+  switch (state) {
+  case ShapeState::Preview:
+    painter.setPen(defaultPreviewStyle());
+    break;
+
+  case ShapeState::Final:
+    painter.setPen(defaultFinalStyle());
+    break;
+
+  case ShapeState::Selected:
+    painter.setPen(defaultSelectedStyle());
+    break;
   }
+  painter.setBrush(state == ShapeState::Preview ? Qt::NoBrush : fill());
 }
 
 class PointShape : public virtual Shape {
@@ -45,6 +62,8 @@ public:
 
 class RectShape : public virtual Shape {
 protected:
+  QBrush fill() const override { return {Qt::gray, Qt::SolidPattern}; }
+
   // needed for composite shapes to avoid calculation mishaps
   // draws corner-to-corner
   void ShowBaseShape(QPainter &painter, int x1, int y1, int x2, int y2) const {
@@ -56,15 +75,6 @@ public:
   void show(QPainter &painter) const override {
     setStyle(painter);
     show(painter, xs1, ys1, xs2, ys2);
-  }
-  void setStyle(QPainter &painter) const override {
-    if (isDrawing) {
-      painter.setPen(QPen(Qt::black, 1, Qt::DashLine));
-      painter.setBrush(Qt::NoBrush);
-    } else {
-      painter.setPen(QPen(Qt::black, 3));
-      painter.setBrush(QBrush(Qt::gray, Qt::SolidPattern));
-    }
   }
   // draws center-to-corner
   void show(QPainter &painter, int x1, int y1, int x2, int y2) const {
@@ -78,19 +88,13 @@ public:
 };
 
 class EllipseShape : public virtual Shape {
+protected:
+  QBrush fill() const override { return {Qt::white, Qt::SolidPattern}; }
+
 public:
   void show(QPainter &painter) const override {
     setStyle(painter);
     show(painter, xs1, ys1, xs2, ys2);
-  }
-  void setStyle(QPainter &painter) const override {
-    if (isDrawing) {
-      painter.setPen(QPen(Qt::black, 1, Qt::DashLine));
-      painter.setBrush(Qt::NoBrush);
-    } else {
-      painter.setPen(QPen(Qt::black, 3));
-      painter.setBrush(QBrush(Qt::white, Qt::SolidPattern));
-    }
   }
   void show(QPainter &painter, int x1, int y1, int x2, int y2) const {
     painter.drawEllipse(QRect(QPoint(x1, y1), QPoint(x2, y2)).normalized());
@@ -101,19 +105,14 @@ public:
 };
 
 class LineOOShape : public LineShape, public EllipseShape {
+protected:
+  QBrush fill() const override { return {Qt::white, Qt::SolidPattern}; }
+
 public:
+  using Shape::setStyle;
   void show(QPainter &painter) const override {
     setStyle(painter);
     show(painter, xs1, ys1, xs2, ys2);
-  }
-  void setStyle(QPainter &painter) const override {
-    if (isDrawing) {
-      painter.setPen(QPen(Qt::black, 1, Qt::DashLine));
-      painter.setBrush(Qt::NoBrush);
-    } else {
-      painter.setPen(QPen(Qt::black, 3));
-      painter.setBrush(QBrush(Qt::white, Qt::SolidPattern));
-    }
   }
   void show(QPainter &painter, int x1, int y1, int x2, int y2) const {
     LineShape::show(painter);
@@ -128,6 +127,9 @@ public:
 };
 
 class CubeShape : public LineShape, public RectShape {
+protected:
+  QBrush fill() const override { return Qt::NoBrush; }
+
 public:
   void show(QPainter &painter) const override {
     setStyle(painter);
@@ -156,14 +158,10 @@ ShapeFactory::ShapeFactory() {
       });
 
   add("line", QString("Лінія"), QString(":line"),
-      []() -> std::unique_ptr<Shape> {
-        return std::make_unique<LineShape>();
-      });
+      []() -> std::unique_ptr<Shape> { return std::make_unique<LineShape>(); });
 
   add("rectangle", QString("Прямокутник"), QString(":rectangle"),
-      []() -> std::unique_ptr<Shape> {
-        return std::make_unique<RectShape>();
-      });
+      []() -> std::unique_ptr<Shape> { return std::make_unique<RectShape>(); });
 
   add("ellipse", QString("Еліпс"), QString(":ellipse"),
       []() -> std::unique_ptr<Shape> {
@@ -176,7 +174,5 @@ ShapeFactory::ShapeFactory() {
       });
 
   add("cube", QString("Куб"), QString(":cuboid"),
-      []() -> std::unique_ptr<Shape> {
-        return std::make_unique<CubeShape>();
-      });
+      []() -> std::unique_ptr<Shape> { return std::make_unique<CubeShape>(); });
 }

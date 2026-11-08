@@ -7,6 +7,9 @@
 
 class CanvasWidget : public QWidget {
   Q_OBJECT
+
+  Editor &editor = *Editor::instance();
+
 public:
   explicit CanvasWidget(QWidget *parent = nullptr);
 
@@ -17,9 +20,6 @@ protected:
   void mousePressEvent(QMouseEvent *event) override;
   void mouseMoveEvent(QMouseEvent *event) override;
   void mouseReleaseEvent(QMouseEvent *event) override;
-
-private:
-  Editor *editor = Editor::instance();
 };
 
 #endif // CANVASWIDGET_H

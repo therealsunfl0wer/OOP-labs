@@ -18,6 +18,8 @@ class Editor {
   std::vector<std::unique_ptr<Shape>> shapes;
   int xstart, ystart;
   std::unique_ptr<Shape> current;
+  int selectedIdx = -1;
+  int drawingRevision = 0;
 
   std::vector<std::function<void()>> subscribed;
   void notify() {
@@ -39,20 +41,17 @@ public:
 
   Editor(const Editor &) = delete;
   Editor &operator=(const Editor &) = delete;
-
-  // TODO: add ids for subscribed callbacks
-  // fine for now as the lifetime of CanvasWidget is same as MainWindow's
   void subscribe(std::function<void()> callback) {
     subscribed.push_back(callback);
   }
-
-  // TODO:
-  // void unsubscribe(const &id) const {}
+  void select(int i);
+  void removeAt(int i);
+  int revision() const { return drawingRevision; }
 
   void clear();
-  size_t entries() const { return shapes.size(); }
-  const Shape *getShape(size_t shapeAt) const {
-    return shapes.at(shapeAt).get();
+  int entries() const { return static_cast<int>(shapes.size()); }
+  const Shape *getShape(int shapeAt) const {
+    return shapes.at(static_cast<size_t>(shapeAt)).get();
   }
 
   void setShape(std::unique_ptr<Shape> selected);

@@ -6,9 +6,6 @@
 #include <QSaveFile>
 #include <QString>
 #include <QTextStream>
-#include <memory>
-#include <utility>
-#include <vector>
 
 int constexpr TABLE_ROW_LENGTH = 5;
 
@@ -35,7 +32,7 @@ Result save(const QString &filePath) {
   }
   QTextStream out(&file);
 
-  for (size_t i = 0; i < editor->entries(); ++i) {
+  for (int i = 0; i < editor->entries(); ++i) {
     const Shape *shape = editor->getShape(i);
     const ShapeParams params = shape->getParams();
     out << params.id << ',' << params.x1 << ',' << params.y1 << ',' << params.x2
@@ -81,7 +78,7 @@ Result load(const QString &filePath) {
 
     int coords[4] = {};
 
-    for (size_t i = 1; i < TABLE_ROW_LENGTH; i++) {
+    for (int i = 1; i < TABLE_ROW_LENGTH; i++) {
       coords[i - 1] = split[i].toInt(&r.ok);
       if (!r.ok) {
         r.errorMessage = QString("line %1, argument %2 is not a "

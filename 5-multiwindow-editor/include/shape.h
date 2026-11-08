@@ -2,8 +2,11 @@
 #define SHAPE_H
 
 #include <QPainter>
+#include <QBrush>
 #include <QString>
 #include <memory>
+
+enum class ShapeState { Final, Preview, Selected };
 
 struct ShapeParams {
   QString id;
@@ -13,13 +16,14 @@ struct ShapeParams {
 class Shape {
   friend class ShapeFactory;
   QString id;
+  ShapeState state = ShapeState::Final;
 
 protected:
-  virtual void setStyle(QPainter &painter) const;
+  void setStyle(QPainter &painter) const;
+  virtual QBrush fill() const;
   int xs1 = 0, ys1 = 0, xs2 = 0, ys2 = 0;
 
 public:
-  bool isDrawing = false;
   ShapeParams const getParams() const { return {id, xs1, ys1, xs2, ys2}; }
   void setCoords(int x1, int y1, int x2, int y2) {
     xs1 = x1;
@@ -27,6 +31,8 @@ public:
     xs2 = x2;
     ys2 = y2;
   }
+  ShapeState getState() const { return state; }
+  void setState(ShapeState s) { state = s; }
   virtual void show(QPainter &painter) const = 0;
   virtual std::unique_ptr<Shape> clone() const = 0;
   virtual ~Shape() = default;
