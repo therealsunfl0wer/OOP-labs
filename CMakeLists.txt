@@ -12,13 +12,14 @@ set(CMAKE_AUTORCC ON)
 
 # Each lab is a standalone CMake project with its own executable target.
 # Comment out any you don't want built yet.
-# add_subdirectory(1-vs-setup)
-# add_subdirectory(2-shape-editor)
-# add_subdirectory(3-ui-widgets)
-# add_subdirectory(4-editor-refactor)
+add_subdirectory(1-vs-setup)
+add_subdirectory(2-shape-editor)
+add_subdirectory(3-ui-widgets)
+add_subdirectory(4-editor-refactor)
 add_subdirectory(5-multiwindow-editor)
-# add_subdirectory(6-message-driven-system/sender)
-# add_subdirectory(6-message-driven-system/receiver)
+add_subdirectory(6-message-driven-system/generator)
+add_subdirectory(6-message-driven-system/sorter)
+add_subdirectory(6-message-driven-system/manager)
 
 # Individual project (RGR) — only buildable once you've picked a topic
 # and populated rgr-project/src. Comment out until then.
